@@ -1,0 +1,80 @@
+# Generated with the following on 2018-08-15T18:56:09.655425
+#
+#   openstack overcloud container image prepare --namespace docker-registry.engineering.redhat.com/rhosp13 --output-images-file /home/stack/templates/container-images.yaml --output-env-file /home/stack/templates/docker-registry.yaml --push-destination 172.16.0.1:8787 -e /home/stack/templates/node-count.yaml -e /usr/share/openstack-tripleo-heat-templates/environments/network-isolation.yaml -e /usr/share/openstack-tripleo-heat-templates/environments/services-docker/octavia.yaml -e /home/stack/templates/docker-registry.yaml -e /home/stack/templates/environments/10-network.yaml -e /home/stack/templates/environments/10-ntp.yaml -e /home/stack/templates/environments/20-network-environment.yaml -e /home/stack/templates/environments/25-hostname-map.yaml -e /home/stack/templates/environments/30-ips-from-pool-all.yaml -e /home/stack/templates/environments/50-vip.yaml -e /home/stack/templates/environments/55-rsvd_host_memory.yaml
+#
+
+parameter_defaults:
+  DockerAodhApiImage: 172.16.0.1:8787/rhosp13/openstack-aodh-api:latest
+  DockerAodhConfigImage: 172.16.0.1:8787/rhosp13/openstack-aodh-api:latest
+  DockerAodhEvaluatorImage: 172.16.0.1:8787/rhosp13/openstack-aodh-evaluator:latest
+  DockerAodhListenerImage: 172.16.0.1:8787/rhosp13/openstack-aodh-listener:latest
+  DockerAodhNotifierImage: 172.16.0.1:8787/rhosp13/openstack-aodh-notifier:latest
+  DockerCeilometerCentralImage: 172.16.0.1:8787/rhosp13/openstack-ceilometer-central:latest
+  DockerCeilometerConfigImage: 172.16.0.1:8787/rhosp13/openstack-ceilometer-central:latest
+  DockerCeilometerNotificationImage: 172.16.0.1:8787/rhosp13/openstack-ceilometer-notification:latest
+  DockerCinderApiImage: 172.16.0.1:8787/rhosp13/openstack-cinder-api:latest
+  DockerCinderConfigImage: 172.16.0.1:8787/rhosp13/openstack-cinder-api:latest
+  DockerCinderSchedulerImage: 172.16.0.1:8787/rhosp13/openstack-cinder-scheduler:latest
+  DockerCinderVolumeImage: 172.16.0.1:8787/rhosp13/openstack-cinder-volume:latest
+  DockerClustercheckConfigImage: 172.16.0.1:8787/rhosp13/openstack-mariadb:latest
+  DockerClustercheckImage: 172.16.0.1:8787/rhosp13/openstack-mariadb:latest
+  DockerCrondConfigImage: 172.16.0.1:8787/rhosp13/openstack-cron:latest
+  DockerCrondImage: 172.16.0.1:8787/rhosp13/openstack-cron:latest
+  DockerGlanceApiConfigImage: 172.16.0.1:8787/rhosp13/openstack-glance-api:latest
+  DockerGlanceApiImage: 172.16.0.1:8787/rhosp13/openstack-glance-api:latest
+  DockerGnocchiApiImage: 172.16.0.1:8787/rhosp13/openstack-gnocchi-api:latest
+  DockerGnocchiConfigImage: 172.16.0.1:8787/rhosp13/openstack-gnocchi-api:latest
+  DockerGnocchiMetricdImage: 172.16.0.1:8787/rhosp13/openstack-gnocchi-metricd:latest
+  DockerGnocchiStatsdImage: 172.16.0.1:8787/rhosp13/openstack-gnocchi-statsd:latest
+  DockerHAProxyConfigImage: 172.16.0.1:8787/rhosp13/openstack-haproxy:latest
+  DockerHAProxyImage: 172.16.0.1:8787/rhosp13/openstack-haproxy:latest
+  DockerHeatApiCfnConfigImage: 172.16.0.1:8787/rhosp13/openstack-heat-api-cfn:latest
+  DockerHeatApiCfnImage: 172.16.0.1:8787/rhosp13/openstack-heat-api-cfn:latest
+  DockerHeatApiConfigImage: 172.16.0.1:8787/rhosp13/openstack-heat-api:latest
+  DockerHeatApiImage: 172.16.0.1:8787/rhosp13/openstack-heat-api:latest
+  DockerHeatConfigImage: 172.16.0.1:8787/rhosp13/openstack-heat-api:latest
+  DockerHeatEngineImage: 172.16.0.1:8787/rhosp13/openstack-heat-engine:latest
+  DockerHorizonConfigImage: 172.16.0.1:8787/rhosp13/openstack-horizon:latest
+  DockerHorizonImage: 172.16.0.1:8787/rhosp13/openstack-horizon:latest
+  DockerInsecureRegistryAddress:
+  - 172.16.0.1:8787
+  DockerIscsidConfigImage: 172.16.0.1:8787/rhosp13/openstack-iscsid:latest
+  DockerIscsidImage: 172.16.0.1:8787/rhosp13/openstack-iscsid:latest
+  DockerKeystoneConfigImage: 172.16.0.1:8787/rhosp13/openstack-keystone:latest
+  DockerKeystoneImage: 172.16.0.1:8787/rhosp13/openstack-keystone:latest
+  DockerMemcachedConfigImage: 172.16.0.1:8787/rhosp13/openstack-memcached:latest
+  DockerMemcachedImage: 172.16.0.1:8787/rhosp13/openstack-memcached:latest
+  DockerMysqlClientConfigImage: 172.16.0.1:8787/rhosp13/openstack-mariadb:latest
+  DockerMysqlConfigImage: 172.16.0.1:8787/rhosp13/openstack-mariadb:latest
+  DockerMysqlImage: 172.16.0.1:8787/rhosp13/openstack-mariadb:latest
+  DockerNeutronApiImage: 172.16.0.1:8787/rhosp13/openstack-neutron-server:latest
+  DockerNeutronConfigImage: 172.16.0.1:8787/rhosp13/openstack-neutron-server:latest
+  DockerNeutronDHCPImage: 172.16.0.1:8787/rhosp13/openstack-neutron-dhcp-agent:latest
+  DockerNeutronL3AgentImage: 172.16.0.1:8787/rhosp13/openstack-neutron-l3-agent:latest
+  DockerNeutronMetadataImage: 172.16.0.1:8787/rhosp13/openstack-neutron-metadata-agent:latest
+  DockerNovaApiImage: 172.16.0.1:8787/rhosp13/openstack-nova-api:latest
+  DockerNovaConductorImage: 172.16.0.1:8787/rhosp13/openstack-nova-conductor:latest
+  DockerNovaConfigImage: 172.16.0.1:8787/rhosp13/openstack-nova-api:latest
+  DockerNovaConsoleauthImage: 172.16.0.1:8787/rhosp13/openstack-nova-consoleauth:latest
+  DockerNovaMetadataImage: 172.16.0.1:8787/rhosp13/openstack-nova-api:latest
+  DockerNovaPlacementConfigImage: 172.16.0.1:8787/rhosp13/openstack-nova-placement-api:latest
+  DockerNovaPlacementImage: 172.16.0.1:8787/rhosp13/openstack-nova-placement-api:latest
+  DockerNovaSchedulerImage: 172.16.0.1:8787/rhosp13/openstack-nova-scheduler:latest
+  DockerNovaVncProxyImage: 172.16.0.1:8787/rhosp13/openstack-nova-novncproxy:latest
+  DockerOctaviaApiImage: 172.16.0.1:8787/rhosp13/openstack-octavia-api:latest
+  DockerOctaviaConfigImage: 172.16.0.1:8787/rhosp13/openstack-octavia-api:latest
+  DockerOctaviaHealthManagerImage: 172.16.0.1:8787/rhosp13/openstack-octavia-health-manager:latest
+  DockerOctaviaHousekeepingImage: 172.16.0.1:8787/rhosp13/openstack-octavia-housekeeping:latest
+  DockerOctaviaWorkerImage: 172.16.0.1:8787/rhosp13/openstack-octavia-worker:latest
+  DockerOpenvswitchImage: 172.16.0.1:8787/rhosp13/openstack-neutron-openvswitch-agent:latest
+  DockerPankoApiImage: 172.16.0.1:8787/rhosp13/openstack-panko-api:latest
+  DockerPankoConfigImage: 172.16.0.1:8787/rhosp13/openstack-panko-api:latest
+  DockerRabbitmqConfigImage: 172.16.0.1:8787/rhosp13/openstack-rabbitmq:latest
+  DockerRabbitmqImage: 172.16.0.1:8787/rhosp13/openstack-rabbitmq:latest
+  DockerRedisConfigImage: 172.16.0.1:8787/rhosp13/openstack-redis:latest
+  DockerRedisImage: 172.16.0.1:8787/rhosp13/openstack-redis:latest
+  DockerSwiftAccountImage: 172.16.0.1:8787/rhosp13/openstack-swift-account:latest
+  DockerSwiftConfigImage: 172.16.0.1:8787/rhosp13/openstack-swift-proxy-server:latest
+  DockerSwiftContainerImage: 172.16.0.1:8787/rhosp13/openstack-swift-container:latest
+  DockerSwiftObjectImage: 172.16.0.1:8787/rhosp13/openstack-swift-object:latest
+  DockerSwiftProxyImage: 172.16.0.1:8787/rhosp13/openstack-swift-proxy-server:latest
