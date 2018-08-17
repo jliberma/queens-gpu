@@ -1,0 +1,4 @@
+parameter_defaults:
+  NovaReservedHostMemory: 1024
+  DockerPuppetDebug: 'True'
+  DockerPuppetProcessCount: 1

@@ -1,0 +1,7 @@
+parameter_defaults:
+  PublicVirtualFixedIPs: [{'ip_address':'192.168.122.150'}]
+  ControlPlaneIP: 172.16.0.250
+  ExternalNetworkVip: 192.168.122.150
+  InternalApiNetworkVip: 172.17.1.150
+  StorageNetworkVip: 172.17.3.150
+  StorageMgmtNetworkVip: 172.17.4.150

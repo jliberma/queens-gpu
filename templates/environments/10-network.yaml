@@ -1,0 +1,6 @@
+parameter_defaults:
+
+  NeutronNetworkType: 'vxlan,vlan'
+  NeutronTunnelTypes: 'vxlan'
+  NeutronServicePlugins: qos,router,trunk
+  NeutronOVSFirewallDriver: openvswitch

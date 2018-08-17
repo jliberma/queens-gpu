@@ -1,0 +1,4 @@
+parameter_defaults:
+  HostnameMap:
+    overcloud-controller-0: lab-controller01
+    overcloud-computeb-0: lab-compute03
