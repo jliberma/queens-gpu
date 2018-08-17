@@ -1,0 +1,12 @@
+parameter_defaults:
+
+  NovaSchedulerDefaultFilters: ['AvailabilityZoneFilter','RamFilter','ComputeFilter','ComputeCapabilitiesFilter','ImagePropertiesFilter','ServerGroupAntiAffinityFilter','ServerGroupAffinityFilter', 'PciPassthroughFilter', 'NUMATopologyFilter', 'AggregateInstanceExtraSpecsFilter']
+
+  ControllerExtraConfig:
+    nova::pci::aliases:
+      -  name: a1
+         product_id: '13f2'
+         vendor_id: '10de'
+      -  name: a2
+         product_id: '13f2'
+         vendor_id: '10de'

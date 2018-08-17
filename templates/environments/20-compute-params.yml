@@ -1,0 +1,8 @@
+parameter_defaults:
+
+  NovaPCIPassthrough:
+        - vendor_id: "10de"
+          product_id: "13f2"
+
+  ComputeBParameters:
+    KernelArgs: "intel_iommu=on iommu=pt"
