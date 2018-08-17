@@ -1,0 +1,150 @@
+heat_template_version: 2016-10-14
+
+description: This template will create an external network, create a internal and a user with a role, create internal network, and router.
+
+parameters:
+  project_name:
+    type: string
+    description: Project name that will be created it.
+    default: 'tenant1'
+  user_role:
+    type: string
+    description: User role to be assigned.
+    default: 'ResellerAdmin'
+  project_user:
+    type: string
+    description: User to be created inside the project.
+    default: 'user1'
+  project_user_passwd:
+    type: string
+    description: Password for the project defined user
+    default: 'redhat'
+  public_net_name:
+    type: string
+    description: Name of the internal network.
+    default: 'public_net'
+  public_subnet_name:
+    type: string
+    description: Name of the internal subnet.
+    default: 'public_subnet'
+  public_net_cidr:
+    type: string
+    description: CIDR for the provider(external) network
+    default: 172.16.0.0/24
+  public_net_pool_start:
+    type: string 
+    description: start of the IP pool for the external network
+    default: 172.16.0.210
+  public_net_pool_end:
+    type: string
+    description: end of the IP pool for the external network
+    default: 172.16.0.230
+  public_net_gateway:
+    type: string
+    description: Gateway for the public network
+    default: 172.16.0.1
+  internal_net_name:
+    type: string
+    description: Name of the internal network.
+    default: 'internal_net'
+  internal_subnet_name:
+    type: string
+    description: Name of the internal subnet.
+    default: 'internal_subnet'
+  internal_router_name:
+    type: string
+    description: Name of the internal router.
+    default: 'internal_router'
+  internal_net_cidr:
+    type: string
+    description: CIDR for the internal network
+    default: 192.168.0.0/24
+
+resources:
+
+  instance_flavor1:
+    type: OS::Nova::Flavor
+    properties:
+      ephemeral: 40
+      is_public: true
+      name: m1.xmedium
+      ram: 16384
+      vcpus: 8
+      extra_specs: { "pci_passthrough:alias": "a1:2" }
+
+  instance_flavor2:
+    type: OS::Nova::Flavor
+    properties:
+      ephemeral: 40
+      is_public: true
+      name: m1.xall
+      ram: 131072
+      vcpus: 28
+      extra_specs: { "pci_passthrough:alias": "a1:2" }
+
+  openstack_project:
+    type: OS::Keystone::Project
+    properties:
+      name: { get_param: project_name }
+      domain: default
+      description: New project
+
+  openstack_user:
+    type: OS::Keystone::User
+    properties:
+      name: { get_param: project_user }
+      domain: default
+      description: User
+      default_project: { get_resource: openstack_project }
+      password: { get_param: project_user_passwd }
+      roles:
+        - role: { get_param: user_role}
+          project: { get_resource: openstack_project }
+
+  public_network:
+    type: OS::Neutron::ProviderNet
+    properties:
+      name: { get_param: public_net_name }
+      network_type: flat
+      physical_network: datacentre
+      router_external: True
+
+  public_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: public_subnet_name }
+      network_id: { get_resource: public_network }
+      cidr: { get_param: public_net_cidr }
+      dns_nameservers: [ '8.8.8.8','192.168.0.1' ]
+      enable_dhcp: False
+      gateway_ip: { get_param: public_net_gateway }
+      allocation_pools:
+        - start: { get_param: public_net_pool_start }
+          end: { get_param: public_net_pool_end }
+  internal_net:
+    type: OS::Neutron::Net
+    properties:
+      name: { get_param: internal_net_name }
+      tenant_id: { get_resource: openstack_project }
+
+  internal_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name: { get_param: internal_subnet_name }
+      network_id: { get_resource: internal_net }
+      cidr: { get_param: internal_net_cidr }
+      dns_nameservers: [ '8.8.8.8','192.168.0.1' ]
+      tenant_id: { get_resource: openstack_project }
+
+  internal_router:
+    type: OS::Neutron::Router
+    properties:
+      name: { get_param: internal_router_name }
+      external_gateway_info:
+        network: { get_resource: public_network }
+
+  router_interface:
+    type: OS::Neutron::RouterInterface
+    properties:
+      router_id: { get_resource: internal_router }
+      subnet_id: { get_resource: internal_subnet }

@@ -1,0 +1,91 @@
+heat_template_version: 2016-10-14
+
+description: This template will create two servers and assign one an IP address.
+
+parameters:
+  tenant_key_name:
+    type: string
+    description: ssh key required for server creation
+    default: 'stack'
+    constraints:
+      - custom_constraint: nova.keypair
+  server1_name:
+    type: string
+    description: name of the instance
+    default: 'vm1'
+  internal_net_name:
+    type: string
+    description: name of the internal network
+    default: 'internal_net'
+  internal_subnet_name:
+    type: string
+    description: name of the internal subnet
+    default: 'internal_subnet'
+  public_net_cidr:
+    type: string
+    description: CIDR for the public(external) network
+    default: 192.168.122.0/24
+  public_network:
+    type: string
+    description: Name of the public network.
+    default: 'public_net'
+
+resources:
+
+  security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      name: internal_sg
+      description: Ping and SSH
+      rules:
+      - protocol: icmp
+      - protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
+
+  cuda_init:
+    type: OS::Heat::SoftwareConfig
+    properties:
+      config: |
+        #!/bin/bash
+        echo "installing repos" > /tmp/cuda_init.log
+        rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        rpm -ivh https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-8.0.61-1.x86_64.rpm
+        echo "installing cuda and samples" >> /tmp/cuda_init.log
+        yum install -y cuda && /usr/local/cuda-9.0/bin/cuda-install-samples-9.0.sh /home/cloud-user
+        echo "building cuda samples" >> /tmp/cuda_init.log
+        make -j $(grep -c Skylake /proc/cpuinfo) -C /home/cloud-user/NVIDIA_CUDA-9.0_Samples -Wno-deprecated-gpu-targets
+        shutdown -r now
+
+  server_init:
+    type: OS::Heat::MultipartMime
+    properties:
+      parts:
+      - config: { get_resource: cuda_init } 
+
+  server1:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: server1_name }
+      image: rhel7.4-gpu
+      flavor: m1.xall
+      key_name:  { get_param: tenant_key_name }
+      networks:
+        - port: { get_resource: server1_port }
+      user_data_format: RAW
+      user_data:
+        get_resource: server_init
+
+  server1_port:
+    type: OS::Neutron::Port
+    properties:
+      network: { get_param: internal_net_name }
+      fixed_ips:
+        - subnet: { get_param: internal_subnet_name }
+      security_groups: [get_resource: security_group]
+
+  server1_floating_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: { get_param: public_network }
+      port_id: { get_resource: server1_port }
