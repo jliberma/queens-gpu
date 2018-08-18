@@ -95,7 +95,3 @@ outputs:
   private_key:
     description: The private key to access instance 
     value: { get_attr: [tenant_key_pair, private_key] }
-
-  instance_ip:
-    description: The IP address of server 1
-    value: { get_attr: [server1, server1_floating_ip] }

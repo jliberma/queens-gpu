@@ -30,19 +30,19 @@ parameters:
   public_net_cidr:
     type: string
     description: CIDR for the provider(external) network
-    default: 172.16.0.0/24
+    default: 192.168.122.0/24
   public_net_pool_start:
     type: string 
     description: start of the IP pool for the external network
-    default: 172.16.0.210
+    default: 192.168.122.100
   public_net_pool_end:
     type: string
     description: end of the IP pool for the external network
-    default: 172.16.0.230
+    default: 192.168.122.129
   public_net_gateway:
     type: string
     description: Gateway for the public network
-    default: 172.16.0.1
+    default: 192.168.122.1
   internal_net_name:
     type: string
     description: Name of the internal network.
@@ -105,7 +105,7 @@ resources:
       name: { get_param: public_subnet_name }
       network_id: { get_resource: public_network }
       cidr: { get_param: public_net_cidr }
-      dns_nameservers: [ '8.8.8.8','192.168.0.1' ]
+      dns_nameservers: [ '8.8.8.8','192.168.122.1' ]
       enable_dhcp: False
       gateway_ip: { get_param: public_net_gateway }
       allocation_pools:
@@ -123,7 +123,7 @@ resources:
       name: { get_param: internal_subnet_name }
       network_id: { get_resource: internal_net }
       cidr: { get_param: internal_net_cidr }
-      dns_nameservers: [ '8.8.8.8','192.168.0.1' ]
+      dns_nameservers: [ '8.8.8.8','192.168.122.1' ]
       tenant_id: { get_resource: openstack_project }
 
   internal_router:
