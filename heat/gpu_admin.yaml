@@ -72,16 +72,6 @@ resources:
       vcpus: 8
       extra_specs: { "pci_passthrough:alias": "a1:2" }
 
-  instance_flavor2:
-    type: OS::Nova::Flavor
-    properties:
-      ephemeral: 40
-      is_public: true
-      name: m1.xall
-      ram: 131072
-      vcpus: 28
-      extra_specs: { "pci_passthrough:alias": "a1:2" }
-
   openstack_project:
     type: OS::Keystone::Project
     properties:

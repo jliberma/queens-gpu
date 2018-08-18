@@ -3,12 +3,6 @@ heat_template_version: 2016-10-14
 description: This template will create two servers and assign one an IP address.
 
 parameters:
-  tenant_key_name:
-    type: string
-    description: ssh key required for server creation
-    default: 'stack'
-    constraints:
-      - custom_constraint: nova.keypair
   server1_name:
     type: string
     description: name of the instance
@@ -31,6 +25,12 @@ parameters:
     default: 'public_net'
 
 resources:
+
+  tenant_key_pair:
+    type: OS::Nova::KeyPair
+    properties:
+      name: generated key pair
+      save_private_key: True
 
   security_group:
     type: OS::Neutron::SecurityGroup
@@ -67,9 +67,9 @@ resources:
     type: OS::Nova::Server
     properties:
       name: { get_param: server1_name }
-      image: rhel7.4-gpu
-      flavor: m1.xall
-      key_name:  { get_param: tenant_key_name }
+      image: rhel75u1-gpu
+      flavor: m1.xmedium
+      key_name:  { get_resource: tenant_key_pair }
       networks:
         - port: { get_resource: server1_port }
       user_data_format: RAW
@@ -89,3 +89,13 @@ resources:
     properties:
       floating_network: { get_param: public_network }
       port_id: { get_resource: server1_port }
+
+outputs:
+
+  private_key:
+    description: The private key to access instance 
+    value: { get_attr: [tenant_key_pair, private_key] }
+
+  instance_ip:
+    description: The IP address of server 1
+    value: { get_attr: [server1, server1_floating_ip] }
