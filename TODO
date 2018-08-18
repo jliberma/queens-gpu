@@ -1,6 +1,0 @@
-x. change floating IP pool to external address
-x. test private key generation
-x. check cuda build instructions for M60 GPU
-x. add new environment files to the prepare script
-5. update README text
-6. update README links
