@@ -292,9 +292,9 @@ Manual instructions for installing Cuda drivers and utilities are found in the N
 
 ## Resources
 
-    GPU support in Red Hat OpenStack Platform
-    Bugzilla RFE for documentation on confiuring GPUs via PCI passthrough in OpenStack Platform
-    OpenStack Nova Configure PCI Passthrough
-    KVM virtual machine GPU configuration
-    Nvidia Cuda Linux installation guide
-    DKMS support in Red Hat Enterprise Linux
+1. [GPU support in Red Hat OpenStack Platform](https://access.redhat.com/solutions/3080471)
+2. [Bugzilla RFE for documentation on confiuring GPUs via PCI passthrough in OpenStack Platform](https://bugzilla.redhat.com/show_bug.cgi?id=1430337)
+3. [OpenStack Nova Configure PCI Passthrough](https://docs.openstack.org/nova/queens/admin/pci-passthrough.html)
+4. [KVM virtual machine GPU configuration](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/virtualization_deployment_and_administration_guide/chap-guest_virtual_machine_device_configuration#sect-device-GPU)
+5. [Nvidia Cuda Linux installation guide](https://docs.nvidia.com/cuda/cuda-installation-guide-linux/index.html#runfile-installation)
+6. [DKMS support in Red Hat Enterprise Linux](https://access.redhat.com/solutions/1132653)
