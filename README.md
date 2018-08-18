@@ -213,7 +213,7 @@ The Cuda drivers and utilities are installed by the following OS::Heat::Software
 
 > **NOTE**: Cuda is a proprietary driver that requires DKMS to build the kernel modules. DKMS is available from EPEL. Neither the Cuda drivers nor DKMS are supported by Red Hat.
 
-Verify the drivers are installed correctly:
+Verify the cards are recognized by the instance: 
 
 ```
     $ openstack server list
@@ -226,8 +226,11 @@ Verify the drivers are installed correctly:
     $ ssh -l cloud-user -i gpukey.pem 192.168.122.104 sudo lspci | grep -i nvidia
     00:06.0 VGA compatible controller: NVIDIA Corporation GM204GL [Tesla M60] (rev a1)
     00:07.0 VGA compatible controller: NVIDIA Corporation GM204GL [Tesla M60] (rev a1)
+```
 
+Verify that the drivers are built correctly:
 
+```
     $ ssh -l cloud-user -i gpukey.pem 192.168.122.104 sudo lsmod | grep -i nvidia
     nvidia_drm             39689  0
     nvidia_modeset       1086183  1 nvidia_drm
@@ -237,6 +240,8 @@ Verify the drivers are installed correctly:
     i2c_core               63151  4 drm,i2c_piix4,drm_kms_helper,nvidia
     ipmi_msghandler        46607  2 ipmi_devintf,nvidia
 ```
+
+> **NOTE**: It may take several minutes for the Nvidia drivers to build.
 
 ## Run sample codes
 
