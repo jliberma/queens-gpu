@@ -50,11 +50,11 @@ resources:
         #!/bin/bash
         echo "installing repos" > /tmp/cuda_init.log
         rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-        rpm -ivh https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-8.0.61-1.x86_64.rpm
+        rpm -ivh https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-10.0.130-1.x86_64.rpm
         echo "installing cuda and samples" >> /tmp/cuda_init.log
-        yum install -y cuda && /usr/local/cuda-9.2/bin/cuda-install-samples-9.2.sh /home/cloud-user
+        yum install -y cuda && /usr/local/cuda-10.0/bin/cuda-install-samples-10.0.sh /home/cloud-user
         echo "building cuda samples" >> /tmp/cuda_init.log
-        make -j $(grep -c Skylake /proc/cpuinfo) -C /home/cloud-user/NVIDIA_CUDA-9.2_Samples -Wno-deprecated-gpu-targets
+        make -j $(grep -c Skylake /proc/cpuinfo) -C /home/cloud-user/NVIDIA_CUDA-10.0_Samples -Wno-deprecated-gpu-targets
         shutdown -r now
 
   server_init:
