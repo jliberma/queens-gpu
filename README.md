@@ -199,9 +199,9 @@ The Cuda drivers and utilities are installed by the following OS::Heat::Software
             rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
             rpm -ivh https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-8.0.61-1.x86_64.rpm
             echo "installing cuda and samples" >> /tmp/cuda_init.log
-            yum install -y cuda && /usr/local/cuda-9.2/bin/cuda-install-samples-9.2.sh /home/cloud-user
+            yum install -y cuda && /usr/local/cuda-10.0/bin/cuda-install-samples-10.0.sh /home/cloud-user
             echo "building cuda samples" >> /tmp/cuda_init.log
-            make -j $(grep -c Skylake /proc/cpuinfo) -C /home/cloud-user/NVIDIA_CUDA-9.2_Samples -Wno-deprecated-gpu-targets
+            make -j $(grep -c Skylake /proc/cpuinfo) -C /home/cloud-user/NVIDIA_CUDA-10.0_Samples -Wno-deprecated-gpu-targets
             shutdown -r now
 
       server_init:
@@ -259,10 +259,10 @@ Verify PCI passthrough and Cuda and properly configured by running sample benchm
 Run the sample codes installed in the cloud-user home directory. In this example we run a simple Stream test of memory bandwidth and a floating point matrix multiply.
 
 ```
-    $ ls ~/NVIDIA_CUDA-9.2_Samples/
+    $ ls ~/NVIDIA_CUDA-10.0_Samples/
     0_Simple  1_Utilities  2_Graphics  3_Imaging  4_Finance  5_Simulations  6_Advanced  7_CUDALibraries  bin  common  EULA.txt  Makefile
 
-    $ ~/NVIDIA_CUDA-9.2_Samples/0_Simple/simpleStreams/simpleStreams
+    $ ~/NVIDIA_CUDA-10.0_Samples/0_Simple/simpleStreams/simpleStreams
     [ simpleStreams ]
     Device synchronization method set to = 0 (Automatic Blocking)
     Setting reps to 100 to demonstrate steady state
@@ -282,7 +282,7 @@ Run the sample codes installed in the cloud-user home directory. In this example
     4 streams:      5.41
     -------------------------------
     
-    $ ~/NVIDIA_CUDA-9.2_Samples/0_Simple/matrixMul/matrixMul
+    $ ~/NVIDIA_CUDA-10.0_Samples/0_Simple/matrixMul/matrixMul
     [Matrix Multiply Using CUDA] - Starting...
     GPU Device 0: "Tesla M60" with compute capability 5.2
     MatrixA(320,320), MatrixB(640,320)
